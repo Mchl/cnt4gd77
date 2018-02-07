@@ -1,181 +1,180 @@
 // Nav buttons
 
-var SECTIONS = ['prefarea', 'talkgroups', 'speccont', 'channels', 'generate','comments'];
-var navi_buttons = Array.from(document.getElementsByClassName("navbutton"));
-navi_buttons.forEach(function(button){
-    var guzik=button;
-    guzik.addEventListener("click", function(){
-        navi_buttons.forEach(function(btn){btn.classList.remove('is-active');});
-        guzik.classList.toggle('is-active');
-        SECTIONS.forEach(function(section){
-            document.getElementById(section).classList.add('is-hidden');
-        });
-        document.getElementById(guzik.getAttribute('section')).classList.toggle('is-hidden');
+const filterCheckedValues = arrayLike => [...arrayLike].filter(({checked}) => checked).map(({value}) => value)
+
+const SECTIONS = ['prefarea', 'talkgroups', 'speccont', 'channels', 'generate', 'comments'];
+const navi_buttons = Array.from(document.getElementsByClassName("navbutton"));
+navi_buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    navi_buttons.forEach(btn => {
+      btn.classList.remove('is-active')
     });
+    button.classList.toggle('is-active');
+    SECTIONS.forEach(section => {
+      document.getElementById(section).classList.add('is-hidden');
+    });
+    document.getElementById(button.getAttribute('section')).classList.toggle('is-hidden');
+  });
 });
 
+const channels_sections = ['repeaters', 'services', 'pmr', 'kab'];
 
-var channels_sections = ['repeaters', 'services', 'pmr', 'kab'];
-
-
-var chann_sect_buttons = Array.from(document.getElementsByClassName("chan_section_btn"));
-chann_sect_buttons.forEach(function(button){
-    var guzik=button;
-    guzik.addEventListener("click", function(){
-        chann_sect_buttons.forEach(function(btn){
-            btn.classList.remove('is-active');
-        });
-        guzik.classList.toggle('is-active');
-        channels_sections.forEach(function(section){
-            var x= document.getElementById('chan_tab_' + section);
-            if (x) {
-                x.classList.add('is-hidden');
-            }
-        });
-        document.getElementById('chan_tab_' + guzik.getAttribute('section')).classList.toggle('is-hidden');
+const chann_sect_buttons = Array.from(document.getElementsByClassName("chan_section_btn"));
+chann_sect_buttons.forEach(button => {
+  button.addEventListener("click",() => {
+    chann_sect_buttons.forEach(btn => {
+      btn.classList.remove('is-active');
     });
+    button.classList.toggle('is-active');
+    channels_sections.forEach(function (section) {
+      const x = document.getElementById('chan_tab_' + section);
+      if (x) {
+        x.classList.add('is-hidden');
+      }
+    });
+    document.getElementById('chan_tab_' + guzik.getAttribute('section')).classList.toggle('is-hidden');
+  });
 });
 
 
 // Prefix & area section
-var prefix_checkboxes = Array.from(document.getElementsByClassName('prefix_selection'));
-var area_checkboxes = Array.from(document.getElementsByClassName('area_selection'));
-var prefix_sel_all = document.getElementById('prefix_all');
-var area_sel_all = document.getElementById('area_all');
+const prefix_checkboxes = [...document.getElementsByClassName('prefix_selection')];
+const area_checkboxes = [...document.getElementsByClassName('area_selection')];
+const prefix_sel_all = document.getElementById('prefix_all');
+const area_sel_all = document.getElementById('area_all');
 
-[ [prefix_sel_all, prefix_checkboxes], [area_sel_all, area_checkboxes]].forEach(function(data){
-    var guzik=data[0];
-    var set=data[1];
-    guzik.addEventListener("click", function(){
-        set.forEach(function(checkbox){
-            checkbox.checked = guzik.checked;
-        });
+[[prefix_sel_all, prefix_checkboxes], [area_sel_all, area_checkboxes]].forEach(([button ,set]) => {
+  button.addEventListener("click", () => {
+    set.forEach( checkbox => {
+      checkbox.checked = button.checked;
     });
+  });
 });
 
 // Channels
-var services_group_checkboxes = Array.from(document.getElementsByClassName('service_checkbox_all'));
-var service_checkboxes = Array.from(document.getElementsByClassName('service_checkbox'));
-var apmr_checkboxes = Array.from(document.getElementsByClassName('apmr_checkbox'));
-var dpmr_checkboxes = Array.from(document.getElementsByClassName('dpmr_checkbox'));
+const services_group_checkboxes = [...document.getElementsByClassName('service_checkbox_all')];
+const service_checkboxes = [...document.getElementsByClassName('service_checkbox')];
+const apmr_checkboxes = [...document.getElementsByClassName('apmr_checkbox')];
+const dpmr_checkboxes = [...document.getElementsByClassName('dpmr_checkbox')];
 
-services_group_checkboxes.forEach(function(services_group_ckbox){
-    var service = services_group_ckbox.getAttribute('service');
-    services_group_ckbox.addEventListener("click", function(){
-        var trigger = services_group_ckbox;
-        console.log('klik');
-        service_checkboxes.filter(ckbox => ckbox.getAttribute('service')==service).forEach(function(ckbox){
-            ckbox.checked = trigger.checked;
-        });
+services_group_checkboxes.forEach(function (services_group_ckbox) {
+  const service = services_group_ckbox.getAttribute('service');
+  services_group_ckbox.addEventListener("click", function () {
+    const trigger = services_group_ckbox;
+    console.log('klik');
+    service_checkboxes.filter(ckbox => ckbox.getAttribute('service') == service).forEach(ckbox => {
+      ckbox.checked = trigger.checked;
     });
+  });
 });
 
-var apmr_all_cb = document.getElementById('apmr_sel_all');
-apmr_all_cb.addEventListener("click",function(){
-    apmr_checkboxes.forEach(ckbox => ckbox.checked = apmr_all_cb.checked);
+const apmr_all_cb = document.getElementById('apmr_sel_all');
+apmr_all_cb.addEventListener("click", function () {
+  apmr_checkboxes.forEach(ckbox => ckbox.checked = apmr_all_cb.checked);
 });
 
-var dpmr_all_cb = document.getElementById('dpmr_sel_all');
-dpmr_all_cb.addEventListener("click",function(){
-    dpmr_checkboxes.forEach(ckbox => ckbox.checked = dpmr_all_cb.checked);
+const dpmr_all_cb = document.getElementById('dpmr_sel_all');
+dpmr_all_cb.addEventListener("click", function () {
+  dpmr_checkboxes.forEach(ckbox => ckbox.checked = dpmr_all_cb.checked);
 });
 
 // Error Message
-var error_modal = document.getElementById("error");
-var error_dismiss = document.getElementById("alert_close");
-var error_msg = document.getElementById("error_message");
+const error_modal = document.getElementById("error");
+const error_dismiss = document.getElementById("alert_close");
+const error_msg = document.getElementById("error_message");
 
-error_dismiss.addEventListener("click", function(){
-    error_modal.classList.toggle( "is-active");
+error_dismiss.addEventListener("click", function () {
+  error_modal.classList.toggle("is-active");
 });
 
 // About
-var about_modal = document.getElementById("about");
-var about_dismiss = document.getElementById("about_close");
+const about_modal = document.getElementById("about");
+const about_dismiss = document.getElementById("about_close");
 
-about_dismiss.addEventListener("click", function(){
-    about_modal.classList.toggle( "is-active");
+about_dismiss.addEventListener("click", function () {
+  about_modal.classList.toggle("is-active");
 });
-document.getElementById('about_btn').addEventListener("click",function(){about_modal.classList.toggle('is-active')});
-
+document.getElementById('about_btn').addEventListener("click", function () {
+  about_modal.classList.toggle('is-active')
+});
 
 
 // Storage
-var priocals = document.getElementById("priocals");
-var priosave = document.getElementById("priosave");
-var ignocals = document.getElementById("ignocals");
-var ignosave = document.getElementById("ignosave");
+const priocals = document.getElementById("priocals");
+const priosave = document.getElementById("priosave");
+const ignocals = document.getElementById("ignocals");
+const ignosave = document.getElementById("ignosave");
 if (typeof(Storage) !== "undefined") {
-    priocals.value = localStorage.getItem("gd77.priocals");
-    if (priocals.value !== "") {
-        priosave.checked = true;
-    }
-    ignocals.value = localStorage.getItem("gd77.ignocals");
-    if (ignocals.value !== "") {
-        ignosave.checked = true;
-    }
+  priocals.value = localStorage.getItem("gd77.priocals");
+  if (priocals.value !== "") {
+    priosave.checked = true;
+  }
+  ignocals.value = localStorage.getItem("gd77.ignocals");
+  if (ignocals.value !== "") {
+    ignosave.checked = true;
+  }
 }
 
 
 //Generate!
-var send = document.getElementById("submit");
-send.addEventListener("click", function(){
-    var tgs = Array.from(document.getElementsByClassName('tg_checkbox'));
-    var speccontacts = Array.from(document.getElementsByClassName('speccontact'));
-    var rep_bands = Array.from(document.getElementsByClassName('band_checkbox'));
-    var rep_modes = Array.from(document.getElementsByClassName('mode_checkbox'));
-    var rep_areas = Array.from(document.getElementsByClassName('rep_area_checkbox'));
+const send = document.getElementById("submit");
+send.addEventListener("click", () => {
+  const tgs = document.getElementsByClassName('tg_checkbox');
+  const speccontacts = document.getElementsByClassName('speccontact');
+  const rep_bands = document.getElementsByClassName('band_checkbox');
+  const rep_modes = document.getElementsByClassName('mode_checkbox');
+  const rep_areas = document.getElementsByClassName('rep_area_checkbox');
 
-    var payload = {
-        contacts: {
-            sp_prefix: prefix_checkboxes.filter(cb=>cb.checked).map(cb=>cb.value),
-            sp_area: area_checkboxes.filter(cb=>cb.checked).map(cb=>cb.value),
-            tgs: tgs.filter(cb=>cb.checked).map(cb=>cb.value),
-            adds: speccontacts.filter(cb=>cb.checked).map(cb=>cb.value),
-            prio: priocals.value,
-            igno: ignocals.value
-        },
+  const payload = {
+    contacts: {
+      sp_prefix: filterCheckedValues(prefix_checkboxes),
+      sp_area: filterCheckedValues(area_checkboxes),
+      tgs: filterCheckedValues(tgs),
+      adds: filterCheckedValues(speccontacts),
+      prio: priocals.value,
+      igno: ignocals.value
+    },
 
-        channels: {
-            repeaters: {
-                bands: rep_bands.filter(cb=>cb.checked).map(cb=>cb.value),
-                modes: rep_modes.filter(cb=>cb.checked).map(cb=>cb.value),
-                areas: rep_areas.filter(cb=>cb.checked).map(cb=>cb.value),
-                digi_first: document.getElementsByClassName('digi_first_checkbox')[0].checked,
-                digi_double: document.getElementsByClassName('double_digi_checkbox')[0].checked
-            },
-            services:[],
-            apmr: [],
-            dpmr: []
-        }
-    };
-
-    var service_checkboxes = Array.from(document.getElementsByClassName('service_checkbox'));
-    var service_categories = Array.from(document.getElementsByClassName('service_checkbox_all')).map(cb=>cb.getAttribute('service'));
-
-    services = {};
-    service_categories.forEach(function(service_name){
-        services[service_name] = service_checkboxes.filter(cb=>cb.getAttribute('service')===service_name && cb.checked).map(cb=>cb.value);
-    });
-
-    payload.channels.services = services;
-    payload.channels.apmr = Array.from(document.getElementsByClassName('apmr_checkbox')).filter(cb=>cb.checked).map(cb=>cb.value);
-    payload.channels.dpmr = Array.from(document.getElementsByClassName('dpmr_checkbox')).filter(cb=>cb.checked).map(cb=>cb.value);
-
-    console.log(payload);
-    // save prio list for later
-    if (typeof(Storage) !== "undefined") {
-        if (priosave.checked) {
-            localStorage.setItem("gd77.priocals", priocals.value);
-        }
-        if (ignosave.checked) {
-            localStorage.setItem("gd77.ignocals", ignocals.value);
-        }
-    } else {
-        if (priosave.checked || ignosave.checked) {
-            error_msg.innerText = "Sorry kolego/koleżanko. Twoja przeglądarka nie pozwala zapisać twojej listy kontaktów priorytetowych.";
-            sel_toggle(error_modal, "is-active");
-        }
+    channels: {
+      repeaters: {
+        bands: filterCheckedValues(rep_bands),
+        modes: filterCheckedValues(rep_modes),
+        areas: filterCheckedValues(rep_areas),
+        digi_first: document.getElementsByClassName('digi_first_checkbox')[0].checked,
+        digi_double: document.getElementsByClassName('double_digi_checkbox')[0].checked
+      },
+      services: [],
+      apmr: [],
+      dpmr: []
     }
-    window.open("/csv/" + msgpack.encode(payload).toString('hex'));
+  };
+
+  const service_checkboxes = [...document.getElementsByClassName('service_checkbox')];
+  const service_categories = [...document.getElementsByClassName('service_checkbox_all')].map(cb => cb.getAttribute('service'));
+
+  const services = service_categories.reduce((services, service_name) => {
+    services[service_name] = service_checkboxes.filter(cb => cb.getAttribute('service') === service_name && cb.checked).map(cb => cb.value)
+    return services
+  }, {})
+
+  payload.channels.services = services;
+  payload.channels.apmr = filterCheckedValues(document.getElementsByClassName('apmr_checkbox'));
+  payload.channels.dpmr = filterCheckedValues(document.getElementsByClassName('dpmr_checkbox'));
+
+  console.log(payload);
+  // save prio list for later
+  if (typeof(Storage) !== "undefined") {
+    if (priosave.checked) {
+      localStorage.setItem("gd77.priocals", priocals.value);
+    }
+    if (ignosave.checked) {
+      localStorage.setItem("gd77.ignocals", ignocals.value);
+    }
+  } else {
+    if (priosave.checked || ignosave.checked) {
+      error_msg.innerText = "Sorry kolego/koleżanko. Twoja przeglądarka nie pozwala zapisać twojej listy kontaktów priorytetowych.";
+      sel_toggle(error_modal, "is-active");
+    }
+  }
+  window.open("/csv/" + msgpack.encode(payload).toString('hex'));
 });
